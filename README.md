@@ -7,4 +7,5 @@
 # 在接收方类中，从全局变量中获取数据./>
 <未完成
  # E/BitmapFactory: Unable to decode stream: java.io.FileNotFoundException: /external_files/202303012313.jpg: open failed: ENOENT (No such file or directory)
+ # channel 'ccad12c Application Error: com.example.plant (client)' ~ receive message failed, errno=11, seq = 128942
  />
