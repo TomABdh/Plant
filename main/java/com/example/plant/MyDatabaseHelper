@@ -62,6 +62,14 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         hhh.put(COLUMN_HEIGHT,height);
 
         String filePath = AddActivity.picpath;
+        File file = new File(filePath);
+        if(file.exists()) {
+                // 文件存在，可以进行处理
+                String filePath = file.getPath();
+        } else {
+        // 文件不存在，可能需要恢复文件或者更新应用程序
+        }
+        //process
 
         long result = db.insert(TABLE_NAME,null,hhh);
         if(result == -1){
