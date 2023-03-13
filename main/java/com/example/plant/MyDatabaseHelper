@@ -2,17 +2,23 @@ package com.example.plant;
 
 import static android.content.Intent.getIntent;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import java.net.URISyntaxException;
 
 
@@ -57,25 +63,30 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues hhh = new ContentValues();
 
-        hhh.put(COLUMN_NAME,name);
-        hhh.put(COLUMN_VAR,var);
-        hhh.put(COLUMN_HEIGHT,height);
+        hhh.put(COLUMN_NAME, name);
+        hhh.put(COLUMN_VAR, var);
+        hhh.put(COLUMN_HEIGHT, height);
 
-        String filePath = AddActivity.picpath;
-        File file = new File(filePath);
-        if(file.exists()) {
-                // 文件存在，可以进行处理
-                String filePath = file.getPath();
-        } else {
-        // 文件不存在，可能需要恢复文件或者更新应用程序
-        }
+        Uri uri = AddActivity.uri;
+        String path = getFile(uri);
         //process
 
-        long result = db.insert(TABLE_NAME,null,hhh);
-        if(result == -1){
-            Toast.makeText(context," Fail1",Toast.LENGTH_SHORT).show();
-        }else
-            Toast.makeText(context," Success1 ",Toast.LENGTH_SHORT).show();
+        long result = db.insert(TABLE_NAME, null, hhh);
+        if (result == -1) {
+            Toast.makeText(context, " Fail1", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(context, " Success1 ", Toast.LENGTH_SHORT).show();
+    }
+    public String getFile(Uri uri) {
+        String filePath = null;
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            filePath = cursor.getString(column_index);
+            cursor.close();
+        }
+        return filePath;
     }
 
 
@@ -114,9 +125,9 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_NAME, "_id=?",new String[]{row_id});
         if(result == -1){
-            Toast.makeText(context," Fail3 ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context," Fail ",Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(context," Success3 ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context," Success ",Toast.LENGTH_SHORT).show();
         }
     }
     void deleteAllData(){
