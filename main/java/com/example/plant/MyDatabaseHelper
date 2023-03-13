@@ -67,7 +67,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         hhh.put(COLUMN_VAR, var);
         hhh.put(COLUMN_HEIGHT, height);
 
-        Uri uri = AddActivity.uri;
+        Uri uri = AddActivity.uri1;
         String path = getFile(uri);
         //process
 
@@ -98,6 +98,8 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         hh.put(COLUMN_NAME,name);
         hh.put(COLUMN_VAR,var);
         hh.put(COLUMN_HEIGHT,height);
+        Uri uri = UpdateActivity.uri2;
+        String path = getFile(uri);
 
         Uri imageUri = Uri.parse(intent.getStringExtra("imageUri"));
         String filePath = imageUri.getPath();
